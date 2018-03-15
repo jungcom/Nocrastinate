@@ -107,31 +107,31 @@ public class MainActivity extends AppCompatActivity {
     public void changeAnimalIcon(Button button){
         Bundle data = getIntent().getExtras();
         if (data == null){
-            button.setBackgroundResource(R.drawable.dog);
+            button.setBackgroundResource(R.mipmap.dog);
             return;
         }
         String animal = data.getString("petType");
         petType = animal;
         switch(animal){
-            case "dog": button.setBackgroundResource(R.drawable.dog);
+            case "dog": button.setBackgroundResource(R.mipmap.dog);
                         break;
-            case "cat": button.setBackgroundResource(R.drawable.cat);
+            case "cat": button.setBackgroundResource(R.mipmap.cat);
                         break;
-            case "rabbit": button.setBackgroundResource(R.drawable.rabbit);
+            case "rabbit": button.setBackgroundResource(R.mipmap.rabbit);
                         break;
-            case "bird": button.setBackgroundResource(R.drawable.bird);
+            case "bird": button.setBackgroundResource(R.mipmap.bird);
                         break;
-            case "fish": button.setBackgroundResource(R.drawable.fish);
+            case "fish": button.setBackgroundResource(R.mipmap.fish);
                 break;
-            case "horse": button.setBackgroundResource(R.drawable.horse);
+            case "horse": button.setBackgroundResource(R.mipmap.horse);
                 break;
-            case "snake": button.setBackgroundResource(R.drawable.snake);
+            case "snake": button.setBackgroundResource(R.mipmap.snake);
                 break;
-            case "turtle": button.setBackgroundResource(R.drawable.turtle);
+            case "turtle": button.setBackgroundResource(R.mipmap.turtle);
                 break;
-            case "monkey": button.setBackgroundResource(R.drawable.monkey);
+            case "monkey": button.setBackgroundResource(R.mipmap.monkey);
                 break;
-            default : button.setBackgroundResource(R.drawable.dog);
+            default : button.setBackgroundResource(R.mipmap.dog);
                       break;
         }
     }
