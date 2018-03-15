@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Nocrastinate</string>
+    <string name="action_settings">Settings</string>
+    <string name="StartButtonText">Start</string>
+    <string name="SplashText">Loading...</string>
+    <string name="textWhenFinished">Good Job!</string>
+    <string name="CancelButton">Kill</string>
+    <string name="Copyright">Developed by Anthony Lee </string>
+    <string name="textafterfinished">Back</string>
+    <string name="nocrastinate">Nocrastinate</string>
+</resources>

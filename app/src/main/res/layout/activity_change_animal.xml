@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_orange_dark"
+    tools:context="com.example.anthonylee.myapp.ChangeAnimal">
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="2"
+            android:layout_row="1"
+            android:background="@drawable/bird"
+            android:onClick="changeToBird" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="3"
+            android:layout_row="0"
+            android:background="@drawable/cat"
+            android:onClick="changeToCat" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="4"
+            android:layout_row="0"
+            android:background="@drawable/rabbit"
+            android:onClick="changeToRabbit" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="3"
+            android:layout_row="1"
+            android:background="@drawable/fish"
+            android:onClick="changeToFish" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="4"
+            android:layout_row="1"
+            android:background="@drawable/snake"
+            android:onClick="changeToSnake" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="2"
+            android:layout_row="2"
+            android:background="@drawable/turtle"
+            android:onClick="changeToTurtle" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="3"
+            android:layout_row="2"
+            android:background="@drawable/horse"
+            android:onClick="changeToHorse" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="4"
+            android:layout_row="2"
+            android:background="@drawable/monkey"
+            android:onClick="changeToMonkey" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="72dp"
+            android:layout_height="78dp"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:background="@drawable/dog"
+            android:onClick="changeToDog" />
+
+    </GridLayout>
+
+</RelativeLayout>
