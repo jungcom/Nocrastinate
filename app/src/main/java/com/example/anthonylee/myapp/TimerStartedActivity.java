@@ -2,17 +2,21 @@ package com.example.anthonylee.myapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import pl.droidsonroids.gif.GifImageView;
 
 public class TimerStartedActivity extends AppCompatActivity {
+    private static String TAG = "TimerStarted";
     private boolean finished;
     private Bundle timeData;
     @Override
@@ -57,7 +61,9 @@ public class TimerStartedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(finished){
+                    toMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(toMain);
+                    finish();
                 } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(TimerStartedActivity.this);
                     alertDialog.setCancelable(true);
@@ -74,7 +80,9 @@ public class TimerStartedActivity extends AppCompatActivity {
                     alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            toMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(toMain);
+                            finish();
                         }
                     });
                     alertDialog.show();
@@ -91,8 +99,9 @@ public class TimerStartedActivity extends AppCompatActivity {
         String petType = timeData.getString("petType");
         toMain.putExtra("petType", petType);
         if(finished){
+            toMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(toMain);
-            return;
+            finish();
         }
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(TimerStartedActivity.this);
         alertDialog.setCancelable(true);
@@ -109,7 +118,9 @@ public class TimerStartedActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("Kill", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                TimerStartedActivity.this.finish();
+                toMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(toMain);
+                finish();
             }
         });
         alertDialog.show();
@@ -140,6 +151,48 @@ public class TimerStartedActivity extends AppCompatActivity {
                 cancel.setAlpha(1);
             }
         }.start();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        int dur = Toast.LENGTH_SHORT;
+        if(!finished){
+            Toast toast = Toast.makeText(this,"Your pet died...",dur);
+            toast.show();
+        }
+        finish();
+        Log.i(TAG,"onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"onResume");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG,"onSaveInstance");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.i(TAG,"onRestoreInstance");
     }
 
 }
