@@ -1,31 +1,76 @@
 package com.example.anthonylee.myapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static String TAG = "Main";
     private TextView hours;
     private int time;
-    private String petType ="dog";
+    private String petType = "dog";
+    private Button startTimerButton;
+    private boolean check = false;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private SwitchCompat mSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         seekBar();
-        Button startTimerButton = (Button)findViewById(R.id.changeAnimalButton);
+        startTimerButton = (Button)findViewById(R.id.changeAnimalButton);
         changeAnimalIcon(startTimerButton);
 
+        //navbar implementation
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        if(menuItem.isChecked()) {
+                            menuItem.setChecked(false);
+                        } else if(!menuItem.isChecked()) {
+                            menuItem.setChecked(true);
+                        }
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+
+                        return true;
+                    }
+                });
+        ischecked();
 
     }
 
@@ -122,30 +167,23 @@ public class MainActivity extends AppCompatActivity {
             case "bird": button.setBackgroundResource(R.mipmap.bird);
                         break;
             case "fish": button.setBackgroundResource(R.mipmap.fish);
-                break;
+                        break;
             case "horse": button.setBackgroundResource(R.mipmap.horse);
-                break;
+                        break;
             case "snake": button.setBackgroundResource(R.mipmap.snake);
-                break;
+                        break;
             case "turtle": button.setBackgroundResource(R.mipmap.turtle);
-                break;
+                        break;
             case "monkey": button.setBackgroundResource(R.mipmap.monkey);
-                break;
+                        break;
             default : button.setBackgroundResource(R.mipmap.dog);
                       break;
         }
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     public void startTimer(View view){
         if(time == 0){
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-            //alertDialog.setTitle("");
             alertDialog.setTitle("Please select a time");
 
 
@@ -163,23 +201,66 @@ public class MainActivity extends AppCompatActivity {
 
             toTimerActivity.putExtra("totalTimeInSeconds", startTimeToSec);
             toTimerActivity.putExtra("petType", petType);
+
+            toTimerActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             startActivity(toTimerActivity);
         }
     }
 
+    public void ischecked() {
+        Menu menu = navigationView.getMenu();
+        MenuItem menuItem = menu.findItem(R.id.vibrate);
+        View actionView = MenuItemCompat.getActionView(menuItem);
+
+        mSwitch = (SwitchCompat) actionView.findViewById(R.id.switchAB);
+        //sharedpref setup
+        SharedPreferences sharepref = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharepref.edit();
+
+        //OnChecklistener
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    //Your code when checked
+                    editor.putBoolean("vibration", true);
+                    Toast.makeText(getBaseContext(), "Vibration On", Toast.LENGTH_SHORT).show();
+                    Log.i("vibrate","on");
+                } else {
+                    //Your code when unchecked
+                    editor.putBoolean("vibration", false);
+                    Toast.makeText(getBaseContext(), "Vibration Off", Toast.LENGTH_SHORT).show();
+                    Log.i("vibrate","off");
+                }
+            }
+        });
+
+        editor.apply();
+    }
+
+    public void openNavDraw(View view){
+        drawer.openDrawer(GravityCompat.START);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //inflate menu
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.nav_camera:
+                check = !item.isChecked();
+                item.setChecked(check);
+                return true;
+            default:
+                return false;
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -191,9 +272,48 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface arg0, int arg1) {
-                            System.exit(0);
+                            finish();
                         }
                     }).create().show();
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startTimerButton = (Button)findViewById(R.id.changeAnimalButton);
+        changeAnimalIcon(startTimerButton);
+        Log.i(TAG,"onResume");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG,"onSaveInstance");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.i(TAG,"onRestoreInstance");
+    }
+
 }
